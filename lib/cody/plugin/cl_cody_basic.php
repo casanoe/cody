@@ -2,7 +2,7 @@
 // +--------------------------------------------------------------------------+
 // |   CODY     |   php library                                               |
 // +--------------------------------------------------------------------------+
-// | Copyright (c) 2004-2005 by Cyril <phpsioux@free.fr>.                     |
+// | Copyright (c) 2004-2005 by Cyril                                         |
 // +--------------------------------------------------------------------------+
 // | Ce code est distribue sous license GNU GPL                               |
 // | Pour toute information supplementaire :                                  |
