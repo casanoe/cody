@@ -16,7 +16,7 @@
   * Plugin allowing to calculate mathematic funtion
   * @package sioux
   * @category plugin
-  * @copyright &copy; 2004-2005 by Cyril <phpsioux@free.fr>
+  * @copyright &copy; 2004-2005 by Cyril
   * @link http://phpsioux.free.fr
   * @version 1.0
   * @license GNU GPL license : http://www.gnu.org/copyleft/gpl.html
