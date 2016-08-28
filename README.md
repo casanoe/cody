@@ -184,6 +184,7 @@ class cl_cody_mytinylanguage {
 And to call your plugin:
 ```php
 <?php
+require_once('config.php');
 $cody = new cl_cody();
 $cody->plugin_install('mytinylanguage');
 $cody->cy_interpret('$a=4 print "a+5=",$a+5');
