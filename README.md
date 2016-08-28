@@ -1,9 +1,6 @@
 # php Cody
 Simple interpreter code in PHP
 
-###Summary
-
-
 ##Class features
 - Compatible with php 5 and later
 - Build your own simple language (words and functions)
@@ -33,6 +30,7 @@ define('C_CODY_DIR_PLUGINS', "path_of_plugins_files"); // optional, directory "p
 ```
 
 ##Simple examples
+Here are 3 examples using Cody with different languages (plugins in this repository):
 
 1- Basic plugin
 ```php
@@ -125,21 +123,19 @@ $cody->cy_interpret($code);
 ```
 
 ##Short documentation
-See plugins in the repository. There are a few interesting cases using Cody class.
+* See plugins in the repository. There are a few interesting cases using Cody class.
+* See the [wiki](https://github.com/casanoe/cody/wiki) to have more tips and documentations.
 
 ###How to create a plugin ?
 The first difficult thing is to know how to implement the lexical of the language.
 
-Cody is not an advanced tool for that. It use only regex to cut your code into interpretable tokens, and can only interpret classical expression like that: 
-```
-12+4-(3+var)
-```
-Luckily Cody comes with a default lexical rule like Basic. 
+Cody is not an advanced tool for that. It uses only regex to cut your code into interpretable tokens, and can only interpret classical expression like that: `12+4*x-(3+y)`
 
+Luckily Cody comes with a default lexical rule like Basic. It is also easily to begin writing his own plugin.
 A plugin should be written like that:
 ```php
 <?php
-class cl_cody_myplugin {
+class cl_cody_mytinylanguage {
 
   function onInstall() {
     return array(
@@ -180,6 +176,17 @@ class cl_cody_myplugin {
         $args = $obj->cy_getArgs(C_CODY_GETID, '=', C_CODY_GETEXPR);
         $obj->cy_setVar($args[0], $args[2]); // Set a variable
         break;
+    }
+  }
+}
+?>
+```
+And to call your plugin:
+```php
+<?php
+$cody = new cl_cody();
+$cody->plugin_install('mytinylanguage');
+$cody->cy_interpret('$a=4 print "a+5=",$a+5');
 ?>
 ```
 
