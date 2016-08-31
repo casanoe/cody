@@ -225,13 +225,13 @@ class cl_cody {
       $this->plugins[$plugin]['class'] = $obj;
       $plug = $this->plugins[$plugin];
       // Verification des regles d enregistrement des plugins
-      if ($plug['main'] === true) {
+      if (isset($plug['main']) && $plug['main'] === true) {
         if (isset($this->plugins['main'])) return $this->cy_err('Just one main plugin permitted');
         else $this->plugins['main'] = $plugin;
       }
       if (isset($plug['dependof'])) {
         $bool = false;
-        foreach(explode(',', $plug['dependof']) as $v)
+        foreach($plug['dependof'] as $v)
           $bool = $bool || isset($this->plugins[$v]);
         if (!$bool) $this->cy_err($plugin.' depend of another plugin which is not present.');
       }
@@ -583,19 +583,19 @@ class cl_cody {
 /*
 class cl_cody_extension_example extends cl_cody {
 
-  function cl_cody_extension_example($code = '') { 
+  function cl_cody_extension_example($code = '') {
   	parent::cl_cody($code);
   }
-  
-  function &cy_getUserVar($var) { 
+
+  function &cy_getUserVar($var) {
   	return $GLOBALS[$var];
   }
-  
+
   function cy_startInterpret() {
     parent::cy_startInterpret();
     $this->vars = array("mavariable"=>123);
   }
-  
+
   function cy_execFunc($args, $f) {
     $n = count($args);
     switch($f) {
@@ -603,7 +603,7 @@ class cl_cody_extension_example extends cl_cody {
       default: return parent::cy_execFunc($args, $f);
     }
   }
-  
+
   function cy_statement($w) {
     switch($w) {
       case 'printsum':
