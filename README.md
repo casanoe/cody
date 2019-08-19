@@ -134,9 +134,12 @@ class cl_cody_mytinylanguage {
 
   function onInstall() {
     return array(
-      'main' => true, // True if this plugin control all others
-      'func'  => array('rnd'), // List of words corresponding to your functions
-      'word'      => array(';', ':', '$', 'if', 'end', 'print', 'let') // List of words corresponding to your statements
+      // True if this plugin control all others
+      'main' => true,
+      // List of words corresponding to your functions
+      'func'  => array('rnd'),
+      // List of words corresponding to your statements
+      'word'      => array(';', ':', '$', 'if', 'end', 'print', 'let')
     );
   }
 
@@ -148,28 +151,40 @@ class cl_cody_mytinylanguage {
   }
   // Called when interpreter found a word corresponding to the beginning of a statement
   function onStatement($w) {
-    $obj = &$this->PARENT; // In order to call internal functions or variables of Cody Class (parent)
+    // In order to call internal functions or variables of Cody Class (parent)
+    $obj = &$this->PARENT; 
     switch($w) {
-      case ';': case ':': $obj->cy_nextTok(); break; // No effect. Move one token forward.
+      // No effect. Move one token forward.
+      case ';': case ':':
+        $obj->cy_nextTok(); 
+      break;
       case 'if':
-        $args = $obj->cy_getArgs('(', C_CODY_GETBEXPR, ')', 'then'); // cy_getArgs is used to control and get the right tokens or expressions
-    	  $b = $args[1]; // Result of the boolean expression
-    	  while ($obj->look && $obj->look != 'endif') { // Look around util the end of the "if" statement
-    	    if ($obj->look == 'else' && $obj->cy_nextTok()) $b = !$b;
-    	      else if ($b) {
-    	    	  $w = $obj->cy_statement($obj->look); // Interpret the code in the "if" or "else" statement
-    	      } else $obj->cy_nextTok(); // This code haven't to be interpret, so move forward
+        // cy_getArgs is used to control and get the right tokens or expressions
+        $args = $obj->cy_getArgs('(', C_CODY_GETBEXPR, ')', 'then'); 
+    	$b = $args[1]; // Result of the test expression in the "if" statement
+    	while ($obj->look && $obj->look != 'endif') { 
+          // Look around until the end of the "if" statement
+    	  if ($obj->look == 'else' && $obj->cy_nextTok()) $b = !$b;
+    	  	else if ($b) {
+    	   		// Interpret the code in the "if" or "else" statement
+             	$w = $obj->cy_statement($obj->look); 
+    	  	} 
+          	// This code haven't to be interpret, so move forward
+          	else $obj->cy_nextTok();
     	  }
         $obj->cy_nextTok();
-    		break;
-      case 'end': return C_CODY_CODE_STOP; // Stop interpreter
+    	break;
+      // Stop the interpreter
+      case 'end': return C_CODY_CODE_STOP;
       case 'print':
-        echo implode('', $obj->cy_getArgs(C_CODY_GETALLEXPR, '', ',', '')); // Get all expressions results (separated with a coma)
+        // Get all expressions results (separated with a coma)
+        echo implode('', $obj->cy_getArgs(C_CODY_GETALLEXPR, '', ',', ''));
         break;
       case '$': $obj->pc--; // Move back (one token)
       case 'let':
         $args = $obj->cy_getArgs(C_CODY_GETID, '=', C_CODY_GETEXPR);
-        $obj->cy_setVar($args[0], $args[2]); // Set a variable
+        // Set a variable
+        $obj->cy_setVar($args[0], $args[2]);
         break;
     }
   }
